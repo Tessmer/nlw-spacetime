@@ -24,9 +24,9 @@ export function Form() {
 
       uploadFormData.set('file', fileToUpload);
 
-      const uploadReponse = await api.post('/upload', uploadFormData);
+      const uploadResponse = await api.post('/upload', uploadFormData);
 
-      coverUrl = uploadReponse.data.fileUrl;
+      coverUrl = uploadResponse.data.fileUrl;
     }
 
     const token = Cookie.get('token');
@@ -80,7 +80,7 @@ export function Form() {
         name="content"
         spellCheck={false}
         className="w-full flex-1 resize-none rounded border-0 bg-transparent p-0 text-lg leading-relaxed text-gray-100 placeholder:text-gray-400 focus:ring-0"
-        placeholder="Fique livre para adicionar fotos, vídeos e relatos sobre essa experiência que você quer lembrar para sempre."
+        placeholder="Fique livre para adicionar fotos e relatos sobre essa experiência que você quer lembrar para sempre."
       />
 
       <button
