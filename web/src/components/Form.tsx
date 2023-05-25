@@ -1,13 +1,13 @@
 'use client';
 
-import { FormEvent } from 'react';
+import { api } from '@/lib/api';
+import Cookie from 'js-cookie';
 import { Camera } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import Cookie from 'js-cookie';
-import { MediaPicker } from '@/components';
-import { api } from '@/lib/api';
+import { FormEvent } from 'react';
+import { MediaPicker } from './MediaPicker';
 
-export function NewMemoryForm() {
+export function Form() {
   const router = useRouter();
 
   async function handleCreateMemory(event: FormEvent<HTMLFormElement>) {
@@ -15,17 +15,18 @@ export function NewMemoryForm() {
 
     const formData = new FormData(event.currentTarget);
 
-    const fileToUpload = formData.get('coverUrl');
+    const fileToUpload = formData.get('coverUrl') as File;
 
     let coverUrl = '';
 
     if (fileToUpload) {
       const uploadFormData = new FormData();
+
       uploadFormData.set('file', fileToUpload);
 
-      const uploadResponse = await api.post('/upload', uploadFormData);
+      const uploadReponse = await api.post('/upload', uploadFormData);
 
-      coverUrl = uploadResponse.data.fileUrl;
+      coverUrl = uploadReponse.data.fileUrl;
     }
 
     const token = Cookie.get('token');
@@ -60,7 +61,7 @@ export function NewMemoryForm() {
 
         <label
           htmlFor="isPublic"
-          className="flex items-center gap-1.5 text-sm text-gray-200 hover:text-gray-100"
+          className="flex cursor-pointer items-center gap-1.5 text-sm text-gray-200 hover:text-gray-100"
         >
           <input
             type="checkbox"
@@ -72,16 +73,19 @@ export function NewMemoryForm() {
           Tornar memória pública
         </label>
       </div>
+
       <MediaPicker />
+
       <textarea
         name="content"
         spellCheck={false}
         className="w-full flex-1 resize-none rounded border-0 bg-transparent p-0 text-lg leading-relaxed text-gray-100 placeholder:text-gray-400 focus:ring-0"
-        placeholder="Fique livre para adicionar fotos e relatos sobre essa experiência que você quer lembrar para sempre."
+        placeholder="Fique livre para adicionar fotos, vídeos e relatos sobre essa experiência que você quer lembrar para sempre."
       />
+
       <button
         type="submit"
-        className="inline-block rounded-full bg-green-500 px-5 py-3 font-alt text-sm uppercase leading-none text-black hover:bg-green-600"
+        className="self-end rounded-full bg-green-500 px-5 py-3 font-alt text-sm uppercase leading-none text-black transition-colors hover:bg-green-600"
       >
         Salvar
       </button>

@@ -1,7 +1,7 @@
 import { ChevronLeft } from 'lucide-react';
-import Link from 'next/link';
 
-import { NewMemoryForm } from '@/components/NewMemoryForm';
+import { Form } from '@/components';
+import Link from 'next/link';
 
 export default function NewMemory() {
   return (
@@ -14,7 +14,7 @@ export default function NewMemory() {
         Voltar à timeline
       </Link>
 
-      <NewMemoryForm />
+      <Form />
     </div>
   );
 }
