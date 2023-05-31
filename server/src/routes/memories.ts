@@ -18,10 +18,12 @@ export async function memoriesRoutes(app: FastifyInstance) {
     });
 
     return memories.map((memory) => {
+      console.log("memory", memory);
       return {
         id: memory.id,
         coverUrl: memory.coverUrl,
         excerpt: memory.content.substring(0, 115).concat("..."),
+        createdAt: memory.createdAt,
       };
     });
   });

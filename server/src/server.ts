@@ -12,6 +12,7 @@ import { resolve } from "node:path";
 const app = fastify();
 
 app.register(multipart);
+
 app.register(require("@fastify/static"), {
   root: resolve(__dirname, "../uploads"),
   prefix: "/uploads",
@@ -35,5 +36,5 @@ app
     host: "0.0.0.0",
   })
   .then(() => {
-    console.log("HTTP server running on http://localhost:3333");
+    console.log("🚀 HTTP server running on port http://localhost:3333");
   });

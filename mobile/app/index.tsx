@@ -1,18 +1,19 @@
 import { useEffect } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { useRouter } from "expo-router";
 
+import { Text, TouchableOpacity, View } from "react-native";
 import { makeRedirectUri, useAuthRequest } from "expo-auth-session";
 import * as SecureStore from "expo-secure-store";
-import { useRouter } from "expo-router";
 
 import Logo from "../src/assets/logo.svg";
 import { api } from "../src/lib/api";
 
+const CLIENT_ID = "a37f119fc36e15b06973";
+
 const discovery = {
   authorizationEndpoint: "https://github.com/login/oauth/authorize",
   tokenEndpoint: "https://github.com/login/oauth/access_token",
-  revocationEndpoint:
-    "https://github.com/settings/connections/applications/a37f119fc36e15b06973",
+  revocationEndpoint: `https://github.com/settings/connections/applications/${CLIENT_ID}`,
 };
 
 export default function App() {
@@ -20,7 +21,7 @@ export default function App() {
 
   const [, response, signInWithGithub] = useAuthRequest(
     {
-      clientId: "a37f119fc36e15b06973",
+      clientId: CLIENT_ID,
       scopes: ["identity"],
       redirectUri: makeRedirectUri({
         scheme: "nlwspacetime",
@@ -42,13 +43,6 @@ export default function App() {
   }
 
   useEffect(() => {
-    console.log(
-      "response",
-      makeRedirectUri({
-        scheme: "nlwspacetime",
-      })
-    );
-
     if (response?.type === "success") {
       const { code } = response.params;
       handleGithubOAuthCode(code);
@@ -70,8 +64,8 @@ export default function App() {
         </View>
         <TouchableOpacity
           activeOpacity={0.7}
-          className="rounded-full bg-green-500 px-5 py-2"
           onPress={() => signInWithGithub()}
+          className="rounded-full bg-green-500 px-5 py-2"
         >
           <Text className="font-alt text-sm uppercase text-black">
             Cadastrar lembrança
